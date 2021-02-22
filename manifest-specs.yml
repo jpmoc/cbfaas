@@ -1,0 +1,65 @@
+# NOTE: Additional parameters are passed to the CLI, ex: workspace_name,
+# and not declared herein
+
+
+version: <template_version>
+project: <project_name>             # A resource group
+
+app:
+
+  <function_name>:
+
+    config:
+      env:                                  # Passed as envvar to all providers
+        ENVVAR1: VALUE1
+        ENVVAR2: VALUE2
+
+    labels:
+      key1: value1
+      key2: value2
+
+    build:
+      use:                                  # About to specifies a provider
+        # pack:                             # Provider with default values
+        # docker:                           # Provider with non-default value
+        #   dockerfile: ./files/Dockerfile
+        # jib:
+        kaniko:
+          source: <location_uri>
+      registry:
+        use:
+          docker:
+            image: <localhost:5000/function-container-name>
+            tag: 1
+
+
+    deploy:                                 # Deployed = accessible, but no traffic
+      use:
+        # exec:
+        #   command: ["kubectl", "apply", "-f", "<filename>"]
+        knative:
+          # namespace: <workspace_name>     # Wondering what a workspace is? ;-)
+          # kservice_name: <function_name>
+          # affinity:
+          # ports: [8080, 9090]
+          capacity:
+            memory: 512
+            cpu_count: 1
+        netpol:
+          .....
+        spydermesh:
+          envoy_filters:
+            authn:
+            authz:
+
+
+    release:                                # Traffic is routed to the function-container
+      use:
+        flagger:
+          analysis:
+            metrics:
+            interval:
+
+ifgdfgdfg.
+
+

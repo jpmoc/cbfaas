@@ -1,0 +1,8 @@
+version: 5
+project: my-project
+
+app:
+  name: my-function
+  ports:
+    - 8080
+    - 9090
